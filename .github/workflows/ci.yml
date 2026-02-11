@@ -2,28 +2,40 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main"]
-  pull_request: # PR par bhi test chalana achi aadat hai
-    branches: ["main"]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    # 🔥 NEW: MongoDB Service Container (GitHub ke liye temporary DB)
+    services:
+      mongodb:
+        image: mongo:5.0
+        ports:
+          - 27017:27017
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4 # v3 ki jagah v4 (Latest)
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm" # ✨ Magic Line: Ye download time bachayega
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm ci # ✨ 'install' ki jagah 'ci' (Clean Install)
+    - name: Install Dependencies
+      run: npm ci
 
-      - name: Run Tests
-        run: npm test
-        env: # Agar test chalane ke liye koi dummy env chahiye
-          PORT: 5000
+    # 🔥 UPDATED: Secrets inject karna zaroori hai
+    - name: Run Tests
+      run: npm test
+      env:
+        # Ye secrets GitHub Settings se aayenge
+        ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+        REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
+        # Ye DB URL service container se connect karega
+        MONGO_URI: "mongodb://localhost:27017/test_db"
