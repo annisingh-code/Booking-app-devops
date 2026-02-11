@@ -1,0 +1,29 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request: # PR par bhi test chalana achi aadat hai
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 # v3 ki jagah v4 (Latest)
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm" # ✨ Magic Line: Ye download time bachayega
+
+      - name: Install Dependencies
+        run: npm ci # ✨ 'install' ki jagah 'ci' (Clean Install)
+
+      - name: Run Tests
+        run: npm test
+        env: # Agar test chalane ke liye koi dummy env chahiye
+          PORT: 5000
