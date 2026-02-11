@@ -38,4 +38,4 @@ jobs:
         ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
         REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
         # Ye DB URL service container se connect karega
-        MONGO_URI: "mongodb://localhost:27017/test_db"
+        MONGO_URI: "mongodb://127.0.0.1:27017/BookingSystem"
