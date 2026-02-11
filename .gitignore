@@ -1,0 +1,14 @@
+# Dependencies (Ye DevOps pipeline khud install karegi, git pe mat bhejo)
+node_modules/
+
+# Environment Variables (Secrets kabhi commit nahi karte)
+.env
+
+# System Files (Mac/Windows junk)
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
